@@ -1,24 +1,20 @@
 import * as functions from 'firebase-functions';
 import * as admin from "firebase-admin";
 
+admin.initializeApp()
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //
-export const helloWorld = functions.https.onRequest((request, response) => {
-    functions.logger.info("Hello logs!", {structuredData: true});
-    response.send("Hello from Firebase!");
+export const helloWorld = functions.https.onRequest(async (request, response) => {
 
     const database = admin.database();
     const ref = database.ref("youtube_data/yukihanaramili");
 
-    ref.once("value")
-        .then(value => {
-            functions.logger.info("Hello logs!", value.val());
-        })
-        .catch(reason => {
-            functions.logger.error(reason);
-        })
-});
+    const result = await ref.once("value")
+    functions.logger.info("result ", result.toJSON());
+    response.send(result.toJSON());
 
-admin.initializeApp(functions.config().firebase)
+    functions.logger.info('complete');
+    return;
+});
