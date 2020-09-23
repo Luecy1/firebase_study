@@ -9,7 +9,20 @@ export const helloWorld = functions.https.onRequest(async (request, response) =>
 
     await run();
 
-    response.send("complete");
+    response.send({
+        status: "success"
+    });
     functions.logger.info('complete');
     return;
 });
+
+export const periodicallyTask = functions.pubsub
+    .schedule('0 18 * * *')
+    .timeZone('Asia/Tokyo')
+    .onRun(async () => {
+
+        await run();
+
+        functions.logger.info('complete');
+        return;
+    });

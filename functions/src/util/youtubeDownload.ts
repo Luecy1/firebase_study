@@ -110,6 +110,11 @@ export async function getSearchList(channelId: string): Promise<Search[]> {
         }
 
     }
+
+    if (searches.length === 0) {
+        console.warn("no item");
+    }
+
     return searches;
 }
 
