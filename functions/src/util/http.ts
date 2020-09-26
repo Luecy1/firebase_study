@@ -1,22 +1,6 @@
-import * as https from 'https';
+import fetch from 'node-fetch';
 
-export function get(url: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-        https.get(url, res => {
-            let data = "";
-
-            res.on("data", chunk => {
-                data += chunk;
-            });
-
-            res.on("end", () => {
-                resolve(data);
-            });
-
-            res.on("error", () => {
-                reject();
-            });
-        });
-    });
+export async function get(url: string): Promise<string> {
+    const response = await fetch(url);
+    return await response.text()
 }
-
